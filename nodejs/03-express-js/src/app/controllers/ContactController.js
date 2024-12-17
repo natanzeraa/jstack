@@ -1,14 +1,12 @@
-import ContactRepository from "../repositories/ContactRepository.js"
+import ContactRepository from '../repositories/ContactRepository.js'
 
 class ContactController {
     async index(request, response) {
-        // Lista todos os registros
         const contacts = await ContactRepository.findAll()
         response.json(contacts)
     }
 
     async show(request, response) {
-        // Lista um registro
         const { id } = request.params
 
         const contact = await ContactRepository.findById(id)
@@ -19,16 +17,44 @@ class ContactController {
         return response.json(contact)
     }
 
-    store() {
-        // Criar novo registro
+    async store(request, response) {
+        const { name, email, phone, category_id } = request.body
+        const contactExists = await ContactRepository.findByEmail(email)
+
+        if (contactExists)
+            return response.status(400).json({ error: 'Email is already in use' })
+
+        const newContact = await ContactRepository.create({
+            name, email, phone, category_id
+        })
+
+        return response.status(201).json(newContact)
     }
 
-    update() {
-        // Editar um registro
+    async update(request, response) {
+        const { id } = request.params
+        const {
+            name, email, phone, category_id
+        } = request.body
+
+        const contactExists = await ContactRepository.findById(id)
+
+        if (!contactExists)
+            return response.status(404).json({ error: 'Contact not found' })
+
+        const contactExistsByEmail = await ContactRepository.findByEmail(email)
+
+        if (contactExistsByEmail && contactExistsByEmail.id !== id)
+            return response.status(400).json({ error: 'Email is already in use' })
+
+        const updatedContact = await ContactRepository.update(id, {
+            name, email, phone, category_id
+        })
+
+        return response.status(200).json(updatedContact)
     }
 
     async delete(request, response) {
-        // Deletar um registro
         const { id } = request.params
 
         const contact = await ContactRepository.findById(id)
