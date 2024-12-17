@@ -1,73 +1,66 @@
-import { randomUUID } from 'node:crypto'
-
-let contacts = [
-    {
-        id: randomUUID(),
-        name: 'Natan Felipe',
-        email: 'natanzeraaaaaa@email.com',
-        phone: '45999990000',
-        category_id: randomUUID()
-    },
-    {
-        id: randomUUID(),
-        name: 'Shaolim Matador de Porco',
-        email: 'shaolim_matador_de_porco@email.com',
-        phone: '45999990110',
-        category_id: randomUUID()
-    },
-    {
-        id: randomUUID(),
-        name: 'Me chama de Lord',
-        email: 'loooord@email.com',
-        phone: '45999998888',
-        category_id: randomUUID()
-    }
-]
+import { sql } from '../../database/index.js'
 
 class ContactRepository {
-    findAll() {
-        return new Promise((resolve) => resolve(contacts))
+    async findAll(orderBy = '') {
+        const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
+        const rows = await sql(`
+            SELECT * FROM contacts
+            ORDER BY name ${direction};
+        `)
+
+        return rows
     }
 
-    findById(id) {
-        return new Promise((resolve) =>
-            resolve(contacts.find(contact => contact.id === id)))
+    async findById(id) {
+        const [row] = await sql(`
+            SELECT * FROM contacts
+            WHERE id = $1
+        `, [id])
+
+        return row
     }
 
-    findByEmail(email) {
-        return new Promise((resolve) =>
-            resolve(contacts.find(contact => contact.email === email)))
+    async findByEmail(email) {
+        const [row] = await sql(`
+            SELECT * FROM contacts
+            WHERE email = $1
+        `, [email])
+
+        return row
     }
 
-    delete(id) {
-        return new Promise((resolve) => {
-            contacts = contacts.filter(contact => contact.id !== id)
-            resolve()
-        })
+    async delete(id) {
+        await sql(`
+            DELETE FROM contacts
+            WHERE id = $1;
+        `, [id])
     }
 
-    create(newContact) {
-        return new Promise((resolve) => {
-            contacts.push({
-                id: randomUUID(),
-                ...newContact,
-                category_id: randomUUID()
-            })
+    async create(newContact) {
+        const { name, email, phone, category_id } = newContact
 
-            resolve(contacts.filter(contact => contact.email === newContact.email))
-        })
+        const [row] = await sql(`
+            INSERT INTO contacts (name, email, phone, category_id)
+            VALUES ($1, $2, $3, $4)
+            RETURNING *`,
+            [name, email, phone, category_id]
+        )
+
+        return row
     }
 
-    update(id, contact) {
-        return new Promise((resolve) => {
-            contacts = contacts.filter(contact => contact.id !== id)
-            contacts.push({
-                id,
-                ...contact
-            })
+    async update(id, contact) {
+        const { name, email, phone, category_id } = contact
 
-            resolve(contacts.filter(contact => contact.id === id))
-        })
+        const [row] = await sql(`
+            UPDATE contacts
+            SET name = $2, email = $3, phone = $4, category_id = $5
+            WHERE id = $1
+            RETURNING *`,
+            [id, name, email, phone, category_id]
+        )
+
+        return row
     }
 }
 
