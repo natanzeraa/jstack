@@ -1,9 +1,8 @@
 import express from 'express'
+import router from './routes.js'
 
 const app = express()
 
-app.get('/', (request, response) => {
-    response.json({ message: "Opaaaaa bão? uaii" })
-})
+app.use(router)
 
 app.listen(3000, () => console.log('🔥 Server started at http://localhost:3000'))
