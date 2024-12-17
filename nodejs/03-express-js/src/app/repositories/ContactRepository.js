@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-const contacts = [
+let contacts = [
     {
         id: randomUUID(),
         name: 'Natan Felipe',
@@ -10,15 +10,15 @@ const contacts = [
     },
     {
         id: randomUUID(),
-        name: 'Shaolim dos Porco',
+        name: 'Shaolim Matador de Porco',
         email: 'shaolim_matador_de_porco@email.com',
         phone: '45999990110',
         category_id: randomUUID()
     },
     {
         id: randomUUID(),
-        name: 'Jojo Todynho',
-        email: 'jojoooooo@email.com',
+        name: 'Me chama de Lord',
+        email: 'loooord@email.com',
         phone: '45999998888',
         category_id: randomUUID()
     }
@@ -27,6 +27,18 @@ const contacts = [
 class ContactRepository {
     findAll() {
         return new Promise((resolve) => resolve(contacts))
+    }
+
+    findById(id) {
+        return new Promise((resolve) =>
+            resolve(contacts.find(contact => contact.id === id)))
+    }
+
+    delete(id) {
+        return new Promise((resolve) => {
+            contacts = contacts.filter(contact => contact.id !== id)
+            resolve()
+        })
     }
 }
 
