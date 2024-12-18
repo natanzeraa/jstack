@@ -1,0 +1,22 @@
+{
+    "name": "my-contacts",
+    "version": "1.0.0",
+    "main": "nodejs/03-express-js/index.js",
+    "repository": "git@github.com:natanzeraa/jstack.git",
+    "author": "natanzeraa <natanzeraaaaaa@gmail.com>",
+    "type": "module",
+    "scripts": {
+        "dev": "node --watch --inspect src/index.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "pg": "^8.13.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.17.0",
+        "eslint": "^9.17.0",
+        "globals": "^15.13.0"
+    }
+}
