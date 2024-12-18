@@ -1,7 +1,7 @@
 {
     "name": "my-contacts",
     "version": "1.0.0",
-    "main": "nodejs/03-express-js/index.js",
+    "main": "03-express-js/index.js",
     "repository": "git@github.com:natanzeraa/jstack.git",
     "author": "natanzeraa <natanzeraaaaaa@gmail.com>",
     "type": "module",
