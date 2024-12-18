@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import fs from 'node:fs'
 import pg from 'pg'
 
 const env = dotenv.config()
@@ -16,40 +17,28 @@ const client = new pg.Client({
 })
 
 client.connect()
-    .then(console.log(`Database connected 🔥`))
-    .catch(err => console.err(`Cannot connect to database 😭`, err))
+    .then(console.log(`🔥Database connected`))
+    .catch(err => console.err(`😭Cannot connect to database`, err))
 
+
+const migrations = fs.readFileSync('src/database/schema.sql', (err, data) => {
+    if (err) {
+        console.error(err)
+        return new Error(`Error while processing migrations`, err)
+    }
+    return data
+})
 
 export async function sql(query, values) {
     const { rows } = await client.query(query, values)
     return rows
 }
 
-async function migrate() {
-    sql(`
-        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-    `)
-
-    sql(`
-        CREATE TABLE IF NOT EXISTS categories (
-            id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
-            name VARCHAR NOT NULL
-        );
-    `)
-
-    sql(`
-        CREATE TABLE IF NOT EXISTS contacts (
-            id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
-            name VARCHAR NOT NULL,
-            email VARCHAR NOT NULL UNIQUE,
-            phone VARCHAR,
-            category_id UUID,
-
-            FOREIGN KEY(category_id) REFERENCES categories(ID)
-        );
-    `)
+async function migrate(statement) {
+    await sql(`${statement}`)
 }
 
-await migrate()
-    .then(console.log(`Migrations applied ✅`))
+await migrate(migrations.toString())
+    .then(console.log(`🏗️ Applying migrations . . .\n\n${migrations.toString()}`))
     .catch(console.error)
+    .finally(console.log(`🔥 Migrations applied successfully`))
