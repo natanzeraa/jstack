@@ -1,8 +1,8 @@
-## JStack: Formação Full Stack 😎
+## Node.js 🔥
 
-> _Neste curso **revisitamos conceitos** de **JavaScript** puro e procuramos entender como ferramentas prontas funcionam por **baixo dos panos**._
+> _Este repositório é dedicado aos meus estudos do ecossistema **JavaScript** com **Node.js** e **React.js**._
 
-> Professor: [@maateusilva](https://www.linkedin.com/in/mateusilva/)
+> Meu perfil: [@natanzeraa](https://www.linkedin.com/in/natan-oliveira-71023822b/)
 
 ---
 
@@ -10,9 +10,9 @@
 
 <img src="https://skillicons.dev/icons?i=javascript,nodejs,react,postgres&perline=15" alt="Linguagens de Programação" />
 
-### Aulas 👇
+### Tópicos 👇
 
-_**OBS**: As aulas serão adicionadas ao repositório conforme avanço durante o curso 💡_
+_**OBS**: Novos tópicos serão adicionadas ao repositório conforme o tempo 💡_
 
 <details>
   <summary><strong>Node.js</strong></summary>
