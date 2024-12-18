@@ -17,11 +17,11 @@ _**OBS**: Novos tópicos serão adicionadas ao repositório conforme o tempo �
 <details>
   <summary><strong>Node.js</strong></summary>
     
-1. [**JavaScript Modules**](https://github.com/natanzeraa/jstack/blob/main/nodejs/01-modules)
+1. [**JavaScript Modules**](https://github.com/natanzeraa/node.js/tree/main/01-modules)
 
-2. [**API Node.js**](https://github.com/natanzeraa/jstack/tree/main/nodejs/02-api/src)
+2. [**API Node.js**](https://github.com/natanzeraa/node.js/tree/main/02-api)
 
-3. [**API Express.js**](https://github.com/natanzeraa/jstack/tree/main/nodejs/03-express-js)
+3. [**API Express.js**](https://github.com/natanzeraa/node.js/tree/main/03-express-js)
 
 </details>
 
