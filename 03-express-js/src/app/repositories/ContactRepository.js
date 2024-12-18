@@ -1,4 +1,4 @@
-import { sql } from '../../database/index.js'
+import { sql } from '../../database/queryBuilder.js'
 
 class ContactRepository {
     async findAll(orderBy = '') {
